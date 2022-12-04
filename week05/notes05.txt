@@ -1,0 +1,17 @@
+2.
+$s0 = 4
+$s1 = 5
+
+The sum of (4) and (5) is (9)
+=> In lần lượt
+
+3.
+Khởi tạo địa chỉ của string
+
+4.
+...
+
+5.
+- Nhập từng kí tự. Dùng vòng lặp. Kiểm tra ký tự.
+- Lùi cho đến khi gặp địa chỉ đầu của mảng.
+- In và nhập ra I/O
