@@ -27,27 +27,43 @@
 main:
     li      $t1,        IN_ADDRESS_HEXA_KEYBOARD
     li      $t2,        OUT_ADDRESS_HEXA_KEYBOARD
+init:
+	li		$s0,		0									# Current char
+	li		$s1,		0									# Lastest answer
+	li		$s2, 		0									# Current operand
 polling:
-check01:
+check1:
     li      $t3,        0x01                                # check 0, 1, 2, 3
     sb      $t3,        0($t1)                              # must reassign expected row
     lbu     $a0,        0($t2)                              # read scan code of key button
-    bne     $a0,        0,                          print
-check02:
+    beq		$a0,		0,							check2
+    bne     $a0,        $s0,						update
+    beq     $a0,        $s0,						back_to_polling
+check2:
     li      $t3,        0x02                                # check 4, 5, 6, 7
     sb      $t3,        0($t1)                              # must reassign expected row
     lbu     $a0,        0($t2)                              # read scan code of key button
-    bne     $a0,        0,                          print
-check03:
+    beq		$a0,		0,							check3
+    bne     $a0,        $s0,						update
+    beq     $a0,        $s0,						back_to_polling
+check3:
     li      $t3,        0x04                                # check 8, 9, a, b
     sb      $t3,        0($t1)                              # must reassign expected row
     lbu     $a0,        0($t2)                              # read scan code of key button
-    bne     $a0,        0,                          print
-check04:
+    beq		$a0,		0,							check4
+    bne     $a0,        $s0,						update
+    beq     $a0,        $s0,						back_to_polling
+check4:
     li      $t3,        0x08                                # check c, d, e, f
     sb      $t3,        0($t1)                              # must reassign expected row
     lbu     $a0,        0($t2)                              # read scan code of key button
-print:
+    beq		$a0,		0,							update
+    bne     $a0,        $s0,						update
+    beq     $a0,        $s0,						back_to_polling
+update:
+	add		$s0,		$a0,						$zero
+	beq		$a0,		0,							back_to_polling
+output:
     li      $v0,        34                                  # print integer (hexa)
     syscall 
 sleep:
